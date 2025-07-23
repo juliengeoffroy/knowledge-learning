@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Knowledge Learning{% endblock %}
+
+{% block body %}
+<div class="hero">
+    <h1>Panneau d'administration</h1>
+    <p>Gérez les utilisateurs, cours et achats</p>
+</div>
+
+<div class="themes">
+    <!-- Gestion utilisateurs -->
+    <section class="theme">
+        <h2>Utilisateurs</h2>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Vérifié</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.roles |join(', ')}}</td>
+                        <td>{{ user.isverified ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Gestion cours -->
+    <section class="theme">
+        <h2>Cours</h2>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Thème</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.title }}</td>
+                        <td>{{ course.theme }}</td>
+                        <td>{{ course.price }} €</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Gestion achats -->
+    <section class="theme">
+        <h2>Achats</h2>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Cours</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase in purchases %}
+                    <tr>
+                        <td>{{ purchase.user }}</td>
+                        <td>{{ purchase.course }}</td>
+                        <td>{{ purchase.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock %}

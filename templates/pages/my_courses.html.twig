@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Cours - Knowledge Learning{% endblock %}
+
+{% block body %}
+<div class="hero">
+    <h1>Mes Cours</h1>
+    <p>Suivez votre progression dans vos cours achetés</p>
+</div>
+
+<div class="themes">
+    {% if app.user %}
+        <!-- Exemple d'affichage des cours de l'utilisateur -->
+        <section class="theme">
+            <h2>Mes formations en cours</h2>
+            <div class="courses">
+                <div class="course-card">
+                    <h3>Cursus guitare</h3>
+                    <p>Progression : 50%</p>
+                    <progress value="50" max="100"></progress>
+                </div>
+                <div class="course-card">
+                    <h3>Cursus développement web</h3>
+                    <p>Progression : 20%</p>
+                    <progress value="20" max="100"></progress>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <p>Veuillez vous connecter pour voir vos cours.</p>
+    {% endif %}
+</div>
+{% endblock %}

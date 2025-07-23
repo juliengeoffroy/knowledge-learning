@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - Knowledge Learning{% endblock %}
+
+{% block body %}
+<div class="login-container">
+    <div class="login-box">
+        <h2>Inscription</h2>
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe' }) }}
+            {{ form_row(registrationForm.agreeTerms) }}
+            <button type="submit" class="btn-login">S'inscrire</button>
+        {{ form_end(registrationForm) }}
+    </div>
+</div>
+{% endblock %}

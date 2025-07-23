@@ -1,17 +1,48 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Knowledge Learning{% endblock %}</title>
+    <link rel="icon" href="{{ asset('images/Favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-logo">
+            <img src="{{ asset('images/Logo.jpg') }}" alt="Knowledge Logo">
+        </div>
+        <nav class="nav-links">
+            <a href="{{ path('app_home') }}">Accueil</a>
+            <a href="{{ path('app_courses') }}">Cours</a>
+            <a href="{{ path('app_my_courses') }}">Mes cours</a>
+            <a href="{{ path('app_certifications') }}">Mes Certifications</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_admin') }}">Administration</a>
+            {% endif %}
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}">Déconnexion</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Connexion</a>
+            {% endif %}
+        </nav>
+    </header>
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
+    <!-- Contenu principal -->
+    <main>
         {% block body %}{% endblock %}
-    </body>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 KNOWLEDGE LEARNING — Tous droits réservés</p>
+        <div class="social-links">
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a> |
+            <a href="#">LinkedIn</a>
+        </div>
+    </footer>
+</body>
 </html>

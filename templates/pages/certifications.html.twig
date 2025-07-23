@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Certifications - Knowledge Learning{% endblock %}
+
+{% block body %}
+<div class="hero">
+    <h1>Mes Certifications</h1>
+    <p>Consultez les certifications obtenues après avoir complété vos cursus</p>
+</div>
+
+<div class="themes">
+    {% if app.user %}
+        <!-- Exemple d'affichage des certifications -->
+        <section class="theme">
+            <h2>Certifications obtenues</h2>
+            <div class="courses">
+                <div class="course-card">
+                    <h3>Certificat Cursus guitare</h3>
+                    <p>Obtenu le 10/07/2025</p>
+                </div>
+                <div class="course-card">
+                    <h3>Certificat Cursus cuisine</h3>
+                    <p>Obtenu le 15/07/2025</p>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <p>Veuillez vous connecter pour voir vos certifications.</p>
+    {% endif %}
+</div>
+{% endblock %}

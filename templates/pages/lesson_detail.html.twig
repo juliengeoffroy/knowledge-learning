@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ lesson.title }} - Détail{% endblock %}
+
+{% block body %}
+<div class="course-detail-container">
+    <div class="course-box">
+        <h2>{{ lesson.title }}</h2>
+        <p><strong>Prix :</strong> {{ lesson.price }} €</p>
+        <p>{{ lesson.description }}</p>
+
+        <div class="buttons">
+            <a href="{{ path('app_courses') }}" class="btn-return">← Retour aux cours</a>
+            <a href="#" class="btn-buy">Acheter cette leçon</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

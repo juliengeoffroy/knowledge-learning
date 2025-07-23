@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Knowledge Learning{% endblock %}
+
+{% block body %}
+<div class="hero">
+    <h1>Bienvenue sur KNOWLEDGE LEARNING</h1>
+    <p>Découvrez nos formations en Musique, Cuisine, Informatique et Jardinage</p>
+</div>
+
+<div class="themes">
+    <!-- Musique -->
+    <section class="theme">
+        <h2>Musique</h2>
+        <p>Formation musicale complète</p>
+        <div class="courses">
+            <div class="course-card">
+                <h3>Cursus guitare — 50 €</h3>
+                <ul>
+                    <li>Découverte de l’instrument</li>
+                    <li>Les accords et les gammes</li>
+                </ul>
+            </div>
+            <div class="course-card">
+                <h3>Cursus piano — 50 €</h3>
+                <ul>
+                    <li>Découverte de l’instrument</li>
+                    <li>Les accords et les gammes</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cuisine -->
+    <section class="theme">
+        <h2>Cuisine</h2>
+        <p>Formation culinaire complète</p>
+        <div class="courses">
+            <div class="course-card">
+                <h3>Cursus cuisine — 44 €</h3>
+                <ul>
+                    <li>Modes de cuisson</li>
+                    <li>Les saveurs</li>
+                </ul>
+            </div>
+            <div class="course-card">
+                <h3>Cursus dressage culinaire — 48 €</h3>
+                <ul>
+                    <li>Style dans l’assiette</li>
+                    <li>Harmoniser un repas</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Informatique -->
+    <section class="theme">
+        <h2>Informatique</h2>
+        <p>Formation développement web</p>
+        <div class="courses">
+            <div class="course-card">
+                <h3>Cursus développement web — 60 €</h3>
+                <ul>
+                    <li>HTML & CSS</li>
+                    <li>Javascript dynamique</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jardinage -->
+    <section class="theme">
+        <h2>Jardinage</h2>
+        <p>Formation jardinage pratique</p>
+        <div class="courses">
+            <div class="course-card">
+                <h3>Cursus jardinage — 30 €</h3>
+                <ul>
+                    <li>Les outils du jardinier</li>
+                    <li>Jardiner avec la lune</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

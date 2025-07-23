@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Cours - Knowledge Learning{% endblock %}
+
+{% block body %}
+<div class="hero">
+    <h1>Catalogue des Cours</h1>
+    <p>Choisissez votre thème de formation et commencez à apprendre !</p>
+</div>
+
+<div class="themes">
+    <!-- Musique -->
+    <section class="theme">
+        <h2>Musique</h2>
+        <p>Apprenez la guitare et le piano avec des cours adaptés aux débutants.</p>
+        <div class="courses">
+            <a href="{{ path('app_course_detail', { id: 1 }) }}" class="course-card">
+                <h3>Cursus guitare — 50 €</h3>
+                <ul>
+                    <li>Découverte de l’instrument</li>
+                    <li>Les accords et les gammes</li>
+                </ul>
+            </a>
+            <a href="{{ path('app_course_detail', { id: 2 }) }}" class="course-card">
+                <h3>Cursus piano — 50 €</h3>
+                <ul>
+                    <li>Découverte de l’instrument</li>
+                    <li>Les accords et les gammes</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <!-- Cuisine -->
+    <section class="theme">
+        <h2>Cuisine</h2>
+        <p>Devenez un chef avec nos cursus cuisine et dressage culinaire.</p>
+        <div class="courses">
+            <a href="{{ path('app_course_detail', { id: 3 }) }}" class="course-card">
+                <h3>Cursus cuisine — 44 €</h3>
+                <ul>
+                    <li>Modes de cuisson</li>
+                    <li>Les saveurs</li>
+                </ul>
+            </a>
+            <a href="{{ path('app_course_detail', { id: 4 }) }}" class="course-card">
+                <h3>Cursus dressage culinaire — 48 €</h3>
+                <ul>
+                    <li>Style dans l’assiette</li>
+                    <li>Harmoniser un repas</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <!-- Informatique -->
+    <section class="theme">
+        <h2>Informatique</h2>
+        <p>Apprenez le développement web de zéro avec HTML, CSS et JavaScript.</p>
+        <div class="courses">
+            <a href="{{ path('app_course_detail', { id: 5 }) }}" class="course-card">
+                <h3>Cursus développement web — 60 €</h3>
+                <ul>
+                    <li>HTML & CSS</li>
+                    <li>Javascript dynamique</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <!-- Jardinage -->
+    <section class="theme">
+        <h2>Jardinage</h2>
+        <p>Découvrez les bases du jardinage et optimisez vos récoltes avec la lune.</p>
+        <div class="courses">
+            <a href="{{ path('app_course_detail', { id: 6 }) }}" class="course-card">
+                <h3>Cursus jardinage — 30 €</h3>
+                <ul>
+                    <li>Les outils du jardinier</li>
+                    <li>Jardiner avec la lune</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

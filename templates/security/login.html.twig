@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Knowledge Learning{% endblock %}
+
+{% block body %}
+<div class="login-container">
+    <div class="login-box">
+        <h2>Connexion</h2>
+        <form method="post">
+            {% if error %}
+                <div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <label for="inputEmail">Email :</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" required autofocus>
+
+            <label for="inputPassword">Mot de passe :</label>
+            <input type="password" name="password" id="inputPassword" required>
+
+            <div class="remember-me">
+                <input type="checkbox" id="remember_me" name="_remember_me">
+                <label for="remember_me">Se souvenir de moi</label>
+            </div>
+
+            <button type="submit" class="btn-login">Se connecter</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
