@@ -25,7 +25,7 @@ class Theme
     /**
      * @var Collection<int, Course>
      */
-    #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'theme')]
+    #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'theme', orphanRemoval: true)]
     private Collection $courses;
 
     public function __construct()
@@ -46,7 +46,6 @@ class Theme
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -58,7 +57,6 @@ class Theme
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -83,7 +81,6 @@ class Theme
     public function removeCourse(Course $course): static
     {
         if ($this->courses->removeElement($course)) {
-            // set the owning side to null (unless already changed)
             if ($course->getTheme() === $this) {
                 $course->setTheme(null);
             }

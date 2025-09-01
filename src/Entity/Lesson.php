@@ -60,7 +60,6 @@ class Lesson
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -72,7 +71,6 @@ class Lesson
     public function setPrice(float $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -84,7 +82,6 @@ class Lesson
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
 
@@ -96,7 +93,6 @@ class Lesson
     public function setCourse(?Course $course): static
     {
         $this->course = $course;
-
         return $this;
     }
 
@@ -121,7 +117,6 @@ class Lesson
     public function removePurchase(Purchase $purchase): static
     {
         if ($this->purchases->removeElement($purchase)) {
-            // set the owning side to null (unless already changed)
             if ($purchase->getLesson() === $this) {
                 $purchase->setLesson(null);
             }
@@ -151,7 +146,6 @@ class Lesson
     public function removeProgress(Progress $progress): static
     {
         if ($this->progress->removeElement($progress)) {
-            // set the owning side to null (unless already changed)
             if ($progress->getLesson() === $this) {
                 $progress->setLesson(null);
             }

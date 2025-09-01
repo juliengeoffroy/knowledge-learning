@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 100px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            font-size: 40px;
+            color: #003366;
+        }
+        p {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+        .signature {
+            margin-top: 100px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Certificat de Réussite</h1>
+    <p>Ce certificat est décerné à :</p>
+    <p><strong>{{ certificate.utilisateur.email }}</strong></p>
+    <p>Pour avoir complété avec succès le cours :</p>
+    <p><strong>{{ certificate.course.title }}</strong></p>
+    <p>Le : {{ certificate.obtainedAt|date('d/m/Y') }}</p>
+
+    <div class="signature">
+        Plateforme Knowledge Learning
+    </div>
+</body>
+</html>

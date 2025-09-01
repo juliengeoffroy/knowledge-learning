@@ -14,14 +14,17 @@ class Progress
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?\DateTime $validatedAt = null;
+    private ?int $percentage = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $completedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'progress')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'progress')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)] // <-- CORRECTION : autorise null
     private ?Lesson $lesson = null;
 
     public function getId(): ?int
@@ -29,15 +32,25 @@ class Progress
         return $this->id;
     }
 
-    public function getValidatedAt(): ?\DateTime
+    public function getPercentage(): ?int
     {
-        return $this->validatedAt;
+        return $this->percentage;
     }
 
-    public function setValidatedAt(\DateTime $validatedAt): static
+    public function setPercentage(int $percentage): static
     {
-        $this->validatedAt = $validatedAt;
+        $this->percentage = $percentage;
+        return $this;
+    }
 
+    public function getCompletedAt(): ?\DateTimeImmutable
+    {
+        return $this->completedAt;
+    }
+
+    public function setCompletedAt(?\DateTimeImmutable $completedAt): static
+    {
+        $this->completedAt = $completedAt;
         return $this;
     }
 
@@ -49,7 +62,6 @@ class Progress
     public function setUtilisateur(?User $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
-
         return $this;
     }
 
@@ -61,7 +73,6 @@ class Progress
     public function setLesson(?Lesson $lesson): static
     {
         $this->lesson = $lesson;
-
         return $this;
     }
 }

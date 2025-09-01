@@ -1,22 +1,125 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Administration - Knowledge Learning{% endblock %}
+{% block title %}Tableau de bord - Admin{% endblock %}
 
 {% block body %}
-<div class="hero">
-    <h1>Panneau d'administration</h1>
-    <p>Gérez les utilisateurs, cours et achats</p>
-</div>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('/images/Fond.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
 
-<div class="themes">
-    <!-- Gestion utilisateurs -->
-    <section class="theme">
+    .admin-dashboard {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        color: #222;
+    }
+
+    .admin-dashboard h1 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        color: #1a1a1a;
+        text-align: center;
+        background: rgba(255,255,255,0.7);
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .admin-dashboard section {
+        margin-bottom: 40px;
+    }
+
+    .admin-dashboard table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background: rgba(255, 228, 228, 0.9);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .admin-dashboard th,
+    .admin-dashboard td {
+        border: 1px solid #ccc;
+        padding: 12px;
+        text-align: left;
+        font-size: 0.95rem;
+    }
+
+    .admin-dashboard th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    .admin-dashboard tbody tr:nth-child(even) {
+        background-color: rgba(240, 240, 240, 0.8);
+    }
+
+    .admin-dashboard tbody tr:hover {
+        background-color: rgba(200, 230, 255, 0.6);
+    }
+
+    .admin-dashboard h2 {
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+        color: #003366;
+        border-bottom: 2px solid #003366;
+        padding-bottom: 5px;
+        background: rgba(255,255,255,0.6);
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .btn-edit, .btn-delete, .btn-view {
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-decoration: none;
+        margin: 2px;
+        display: inline-block;
+    }
+    .btn-edit { background: #28a745; color: white; }
+    .btn-edit:hover { background: #218838; }
+    .btn-delete { background: #dc3545; color: white; }
+    .btn-delete:hover { background: #c82333; }
+    .btn-view { background: #007bff; color: white; }
+    .btn-view:hover { background: #0056b3; }
+
+    .btn-home {
+        background: #007bff;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 4px;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 30px;
+    }
+
+    .btn-home:hover {
+        background: #0056b3;
+    }
+
+</style>
+
+<div class="admin-dashboard">
+    <h1>Tableau de bord</h1>
+
+    <!-- Section Utilisateurs -->
+    <section>
         <h2>Utilisateurs</h2>
-        <table class="admin-table">
+        <table>
             <thead>
                 <tr>
                     <th>Email</th>
-                    <th>Rôle</th>
+                    <th>Rôles</th>
                     <th>Vérifié</th>
                 </tr>
             </thead>
@@ -24,58 +127,161 @@
                 {% for user in users %}
                     <tr>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.roles |join(', ')}}</td>
-                        <td>{{ user.isverified ? 'Oui' : 'Non' }}</td>
+                        <td>{{ user.roles|join(', ') }}</td>
+                        <td>{{ user.isVerified ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun utilisateur trouvé.</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </section>
 
-    <!-- Gestion cours -->
-    <section class="theme">
+    <!-- Section Cours -->
+    <section>
         <h2>Cours</h2>
-        <table class="admin-table">
+        <table>
             <thead>
                 <tr>
                     <th>Titre</th>
                     <th>Thème</th>
-                    <th>Prix</th>
+                    <th>Prix (€)</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for course in courses %}
                     <tr>
                         <td>{{ course.title }}</td>
-                        <td>{{ course.theme }}</td>
-                        <td>{{ course.price }} €</td>
+                        <td>{{ course.theme.title }}</td>
+                        <td>{{ course.price }}</td>
+                        <td>
+                            <a href="{{ path('admin_course_edit', { id: course.id }) }}" class="btn-edit">Modifier</a>
+                            <a href="{{ path('admin_course_delete', { id: course.id }) }}" class="btn-delete" onclick="return confirm('Supprimer ce cours ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun cours trouvé.</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </section>
 
-    <!-- Gestion achats -->
-    <section class="theme">
-        <h2>Achats</h2>
-        <table class="admin-table">
+    <!-- Section Leçons -->
+    <section>
+        <h2>Leçons</h2>
+        <table>
             <thead>
                 <tr>
-                    <th>Utilisateur</th>
-                    <th>Cours</th>
-                    <th>Date</th>
+                    <th>Titre</th>
+                    <th>Cours associé</th>
+                    <th>Prix (€)</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for purchase in purchases %}
+                {% for lesson in lessons %}
                     <tr>
-                        <td>{{ purchase.user }}</td>
-                        <td>{{ purchase.course }}</td>
-                        <td>{{ purchase.date }}</td>
+                        <td>{{ lesson.title }}</td>
+                        <td>{{ lesson.course.title }}</td>
+                        <td>{{ lesson.price }}</td>
+                        <td>
+                            <a href="{{ path('admin_lesson_edit', { id: lesson.id }) }}" class="btn-edit">Modifier</a>
+                            <a href="{{ path('admin_lesson_delete', { id: lesson.id }) }}" class="btn-delete" onclick="return confirm('Supprimer cette leçon ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucune leçon trouvée.</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </section>
+
+    <!-- Section Achats -->
+    <section>
+        <h2>Achats</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Cours / Leçon</th>
+                    <th>Date d'achat</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase in purchases %}
+                    <tr>
+                        <td>{{ purchase.utilisateur.email }}</td>
+                        <td>
+                            {% if purchase.course %}
+                                {{ purchase.course.title }}
+                            {% elseif purchase.lesson %}
+                                {{ purchase.lesson.title }}
+                            {% endif %}
+                        </td>
+                        <td>{{ purchase.purchasedAt|date('d/m/Y H:i') }}</td>
+                        <td>
+                            {% if purchase.course %}
+                                <a href="{{ path('app_course_detail', { id: purchase.course.id }) }}" class="btn-view">Voir</a>
+                            {% elseif purchase.lesson %}
+                                <a href="{{ path('app_lesson_detail', { id: purchase.lesson.id }) }}" class="btn-view">Voir</a>
+                            {% endif %}
+                            <a href="{{ path('admin_purchase_delete', { id: purchase.id }) }}" class="btn-delete" onclick="return confirm('Supprimer cet achat ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun achat enregistré</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section Certificats -->
+    <section>
+        <h2>Certificats</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Cours</th>
+                    <th>Date d'obtention</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cert in certificates %}
+                    <tr>
+                        <td>{{ cert.utilisateur.email }}</td>
+                        <td>{{ cert.course.title }}</td>
+                        <td>{{ cert.obtainedAt|date('d/m/Y H:i') }}</td>
+                        <td>
+                            <a href="{{ path('certificate_pdf', { id: cert.id }) }}" class="btn-view">Télécharger</a>
+                            <a href="{{ path('admin_certificate_delete', { id: cert.id }) }}" class="btn-delete" onclick="return confirm('Supprimer ce certificat ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun certificat trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <div class="text-center my-4">
+        <a href="{{ path('app_home') }}" class="btn-home">
+            Retour à l'accueil
+        </a>
+    </div>
+
 </div>
 {% endblock %}

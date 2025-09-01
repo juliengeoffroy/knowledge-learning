@@ -13,8 +13,8 @@ class Certificate
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTime $obtainedAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $obtainedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'certificates')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,12 +29,12 @@ class Certificate
         return $this->id;
     }
 
-    public function getObtainedAt(): ?\DateTime
+    public function getObtainedAt(): ?\DateTimeInterface
     {
         return $this->obtainedAt;
     }
 
-    public function setObtainedAt(\DateTime $obtainedAt): static
+    public function setObtainedAt(\DateTimeInterface $obtainedAt): static
     {
         $this->obtainedAt = $obtainedAt;
 

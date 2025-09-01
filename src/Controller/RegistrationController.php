@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,6 +40,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Rôle par défaut
             $user->setRoles(['ROLE_USER']);
+            $user->setIsVerified(false); // Important : par défaut, non vérifié
 
             // Mot de passe hashé
             $user->setPassword(
@@ -53,16 +53,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Envoi email de confirmation
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('djugeoffroy@gmail.com', 'Knowledge Learning'))
-                    ->to($user->getEmail())
-                    ->subject('Veuillez confirmer votre adresse email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            // Envoi email confirmation (EmailVerifier gère le mail)
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user);
+
+            $this->addFlash('success', 'Un email de confirmation a été envoyé. Vérifiez votre boîte mail.');
 
             return $this->redirectToRoute('app_login');
         }
@@ -75,18 +69,28 @@ class RegistrationController extends AbstractController
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $id = $request->get('id');
+
+        if (null === $id) {
+            $this->addFlash('verify_email_error', 'Lien de vérification invalide.');
+            return $this->redirectToRoute('app_register');
+        }
+
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            $this->addFlash('verify_email_error', 'Utilisateur introuvable.');
+            return $this->redirectToRoute('app_register');
+        }
 
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
-
             return $this->redirectToRoute('app_register');
         }
 
         $this->addFlash('success', 'Votre adresse email a bien été vérifiée.');
-
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_login');
     }
 }

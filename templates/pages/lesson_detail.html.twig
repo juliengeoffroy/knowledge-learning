@@ -3,15 +3,30 @@
 {% block title %}{{ lesson.title }} - Détail{% endblock %}
 
 {% block body %}
+<style>
+    /* Forcer la couleur bleue sur les textes dans la box */
+    .course-box p,
+    .course-box h3,
+    .course-box strong {
+        color: #00497c !important;
+        font-weight: bold;
+    }
+</style>
+
 <div class="course-detail-container">
     <div class="course-box">
         <h2>{{ lesson.title }}</h2>
         <p><strong>Prix :</strong> {{ lesson.price }} €</p>
-        <p>{{ lesson.description }}</p>
+        <p>{{ lesson.content }}</p>
 
         <div class="buttons">
             <a href="{{ path('app_courses') }}" class="btn-return">← Retour aux cours</a>
-            <a href="#" class="btn-buy">Acheter cette leçon</a>
+            <a href="{{ path('checkout_lesson', {id: lesson.id}) }}" class="btn-buy">Acheter cette leçon</a>
+            {% if alreadyPurchased %}
+                <p style="color: green; font-weight: bold; margin-top: 10px;">
+                    Vous avez déjà acheté cette leçon.
+                </p>
+            {% endif %}
         </div>
     </div>
 </div>

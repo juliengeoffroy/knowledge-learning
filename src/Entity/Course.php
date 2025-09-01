@@ -20,7 +20,7 @@ class Course
 
     #[ORM\Column]
     private ?float $price = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Theme $theme = null;
@@ -28,7 +28,7 @@ class Course
     /**
      * @var Collection<int, Lesson>
      */
-    #[ORM\OneToMany(targetEntity: Lesson::class, mappedBy: 'course')]
+    #[ORM\OneToMany(targetEntity: Lesson::class, mappedBy: 'course', orphanRemoval: true)]
     private Collection $lessons;
 
     /**
@@ -63,7 +63,6 @@ class Course
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -75,7 +74,6 @@ class Course
     public function setPrice(float $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -87,7 +85,6 @@ class Course
     public function setTheme(?Theme $theme): static
     {
         $this->theme = $theme;
-
         return $this;
     }
 
@@ -112,7 +109,6 @@ class Course
     public function removeLesson(Lesson $lesson): static
     {
         if ($this->lessons->removeElement($lesson)) {
-            // set the owning side to null (unless already changed)
             if ($lesson->getCourse() === $this) {
                 $lesson->setCourse(null);
             }
@@ -142,7 +138,6 @@ class Course
     public function removePurchase(Purchase $purchase): static
     {
         if ($this->purchases->removeElement($purchase)) {
-            // set the owning side to null (unless already changed)
             if ($purchase->getCourse() === $this) {
                 $purchase->setCourse(null);
             }
@@ -172,7 +167,6 @@ class Course
     public function removeCertificate(Certificate $certificate): static
     {
         if ($this->certificates->removeElement($certificate)) {
-            // set the owning side to null (unless already changed)
             if ($certificate->getCourse() === $this) {
                 $certificate->setCourse(null);
             }

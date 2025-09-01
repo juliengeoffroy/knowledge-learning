@@ -1,33 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes Cours - Knowledge Learning{% endblock %}
+{% block title %}Mes Cours{% endblock %}
 
 {% block body %}
-<div class="hero">
-    <h1>Mes Cours</h1>
-    <p>Suivez votre progression dans vos cours achetés</p>
+<div class="course-detail-container">
+    <div class="course-box">
+        <h2>Mes achats</h2>
+
+        {# Message de succès après paiement #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        {# Si aucun achat #}
+        {% if purchases is empty %}
+            <p>Vous n'avez encore acheté aucun cours ou leçon.</p>
+        {% else %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Type</th>
+                        <th>Prix (€)</th>
+                        <th>Date d'achat</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for purchase in purchases %}
+                        <tr>
+                            <td>{{ purchase.course ? purchase.course.title : purchase.lesson.title }}</td>
+                            <td>{{ purchase.course ? 'Cours' : 'Leçon' }}</td>
+                            <td>{{ purchase.price }}</td>
+                            <td>{{ purchase.createdAt|date('d/m/Y H:i') }}</td>
+                            <td>
+                                {% if purchase.course %}
+                                    <a href="{{ path('app_course_detail', { id: purchase.course.id }) }}"
+                                        class="btn btn-primary btn-sm">Voir</a>
+                                {% elseif purchase.lesson %}
+                                    <a href="{{ path('app_lesson_detail', { id: purchase.lesson.id }) }}"
+                                        class="btn btn-primary btn-sm">Voir</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
 </div>
 
-<div class="themes">
-    {% if app.user %}
-        <!-- Exemple d'affichage des cours de l'utilisateur -->
-        <section class="theme">
-            <h2>Mes formations en cours</h2>
-            <div class="courses">
-                <div class="course-card">
-                    <h3>Cursus guitare</h3>
-                    <p>Progression : 50%</p>
-                    <progress value="50" max="100"></progress>
-                </div>
-                <div class="course-card">
-                    <h3>Cursus développement web</h3>
-                    <p>Progression : 20%</p>
-                    <progress value="20" max="100"></progress>
-                </div>
-            </div>
-        </section>
-    {% else %}
-        <p>Veuillez vous connecter pour voir vos cours.</p>
-    {% endif %}
+<div class="text-center my-4">
+    <a href="{{ path('app_home') }}" class="btn btn-primary">
+        Retour à l'accueil
+    </a>
 </div>
+
+
+<style>
+.btn {
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+}
+.btn:hover {
+    background-color: #0056b3;
+}
+</style>
+
 {% endblock %}

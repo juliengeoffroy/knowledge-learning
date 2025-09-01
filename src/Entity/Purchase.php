@@ -10,37 +10,31 @@ class Purchase
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTime $purchasedAt = null;
-
-    #[ORM\ManyToOne(inversedBy: 'purchases')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'purchases')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $utilisateur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'purchases')]
+    #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'purchases')]
     private ?Course $course = null;
 
-    #[ORM\ManyToOne(inversedBy: 'purchases')]
+    #[ORM\ManyToOne(targetEntity: Lesson::class, inversedBy: 'purchases')]
     private ?Lesson $lesson = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $purchasedAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'float')]
+    private ?float $price = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPurchasedAt(): ?\DateTime
-    {
-        return $this->purchasedAt;
-    }
-
-    public function setPurchasedAt(\DateTime $purchasedAt): static
-    {
-        $this->purchasedAt = $purchasedAt;
-
-        return $this;
     }
 
     public function getUtilisateur(): ?User
@@ -48,10 +42,9 @@ class Purchase
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?User $utilisateur): static
+    public function setUtilisateur(?User $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
-
         return $this;
     }
 
@@ -60,10 +53,9 @@ class Purchase
         return $this->course;
     }
 
-    public function setCourse(?Course $course): static
+    public function setCourse(?Course $course): self
     {
         $this->course = $course;
-
         return $this;
     }
 
@@ -72,10 +64,42 @@ class Purchase
         return $this->lesson;
     }
 
-    public function setLesson(?Lesson $lesson): static
+    public function setLesson(?Lesson $lesson): self
     {
         $this->lesson = $lesson;
+        return $this;
+    }
 
+    public function getPurchasedAt(): ?\DateTimeImmutable
+    {
+        return $this->purchasedAt;
+    }
+
+    public function setPurchasedAt(\DateTimeImmutable $purchasedAt): self
+    {
+        $this->purchasedAt = $purchasedAt;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
         return $this;
     }
 }
