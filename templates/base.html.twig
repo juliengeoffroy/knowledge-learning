@@ -6,30 +6,106 @@
     <title>{% block title %}Knowledge Learning{% endblock %}</title>
     <link rel="icon" href="{{ asset('images/Favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
+
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
     <!-- Navigation -->
-    <header class="navbar">
-        <div class="nav-logo">
-            <img src="{{ asset('images/Logo.jpg') }}" alt="Knowledge Logo">
-        </div>
-        <nav class="nav-links">
-            <a href="{{ path('app_home') }}">Accueil</a>
-            <a href="{{ path('app_courses') }}">Cours</a>
-            <a href="{{ path('app_my_courses') }}">Mes cours</a>
-            <a href="{{ path('app_certifications') }}">Mes Certifications</a>
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('app_admin') }}">Administration</a>
-            {% endif %}
-            {% if app.user %}
-                <a href="{{ path('app_logout') }}">Déconnexion</a>
-            {% else %}
-                <a href="{{ path('app_login') }}">Connexion</a>
-            {% endif %}
-        </nav>
-    </header>
+    <header class="navbar" style="background-color: #004671; color: white; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; position: relative; z-index: 1000; font-family: sans-serif;">
+
+    <div class="nav-logo">
+        <a href="{{ path('app_home') }}">
+            <img src="{{ asset('images/Logo.jpg') }}" alt="Knowledge Logo" style="height: 50px; display: block;">
+        </a>
+    </div>
+
+    <div class="burger-menu" id="burger-menu" style="cursor: pointer; display: none; flex-direction: column; gap: 5px; padding: 5px;">
+        <span style="width: 25px; height: 3px; background: white; display: block; border-radius: 2px;"></span>
+        <span style="width: 25px; height: 3px; background: white; display: block; border-radius: 2px;"></span>
+        <span style="width: 25px; height: 3px; background: white; display: block; border-radius: 2px;"></span>
+    </div>
+
+    <nav class="nav-links" id="nav-links">
+        <a href="{{ path('app_home') }}" style="color: white; text-decoration: none; font-weight: 500;">Accueil</a>
+        <a href="{{ path('app_courses') }}" style="color: white; text-decoration: none; font-weight: 500;">Cours</a>
+        <a href="{{ path('app_my_courses') }}" style="color: white; text-decoration: none; font-weight: 500;">Mes cours</a>
+        <a href="{{ path('app_certifications') }}" style="color: white; text-decoration: none; font-weight: 500;">Mes Certifications</a>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_admin') }}" style="color: #FFD700; text-decoration: none; font-weight: bold;">Administration</a>
+        {% endif %}
+
+        {% if app.user %}
+            <a href="{{ path('app_logout') }}" style="color: #ff4d4d; text-decoration: none; font-weight: 500;">Déconnexion</a>
+        {% else %}
+            <a href="{{ path('app_login') }}" style="color: #00ff88; text-decoration: none; font-weight: 500;">Connexion</a>
+        {% endif %}
+    </nav>
+</header>
+<style>
+/* --- STYLE DES LIENS --- */
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+.nav-links a:hover {
+    text-decoration: underline !important;
+}
+
+/* --- ADAPTATION MOBILE (Écrans de moins de 768px) --- */
+@media (max-width: 768px) {
+    .burger-menu {
+        display: flex !important; /* On affiche les traits */
+    }
+
+    .nav-links {
+        display: none; /* On cache les liens par défaut */
+        flex-direction: column;
+        position: absolute;
+        top: 100%; /* Juste en dessous du header */
+        left: 0;
+        width: 100%;
+        background-color: #004671;
+        padding: 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    .nav-links a {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        width: 100%;
+    }
+
+    /* La classe qui sera ajoutée au clic */
+    .nav-links.active {
+        display: flex !important;
+    }
+}
+</style>
+
+<script>
+    // Interaction pour ouvrir/fermer le menu
+    document.addEventListener('DOMContentLoaded', function() {
+        const burgerBtn = document.getElementById('burger-menu');
+        const navList = document.getElementById('nav-links');
+
+        if (burgerBtn && navList) {
+            burgerBtn.addEventListener('click', function() {
+                // On ajoute ou on enlève la classe 'active'
+                navList.classList.toggle('active');
+            });
+
+            // Fermer le menu si on clique sur un lien (optionnel mais propre)
+            const links = navList.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    navList.classList.remove('active');
+                });
+            });
+        }
+    });
+</script>
+
 
     <!-- Contenu principal -->
     <main>
